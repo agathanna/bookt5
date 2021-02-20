@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <title>Book List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Book List
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    {% block script %}
+    <script src="https://cdn.rawgit.com/xcash/bootstrap-autocomplete/3de7ad37/dist/latest/bootstrap-autocomplete.js"></script>
+    <script>
+        $('.basicAutoComplete').autoComplete(
+            {minLength: 1}
+        );
+        $('.dropdown-menu').css({'top': 'auto', 'left': 'auto'})
+
+    </script>
+     {% endblock %}
+
+    <section class="section">
+        <div class="container">
+           
+            <div class="search-widget widget"></div>
+            
+                <form  method="POST" class="widget-form" action=""  style="margin:auto;max-width: 350px">
+                   {% csrf_token %}
+                   <label>
+                        <input  type="text" placeholder="Insert a query ..." name="search" id="search">
+                    </label>
+                    <button type="submit"><i class="fa fa-search"></i>Search</button>
+                </form>
+
+            </div> <!-- .search.widget -->
+            <br>
+          
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+            <script>
+                $( function() {
+                  $( "#search" ).autocomplete({
+                    source: [[filter(plot_summary__icontains="")]],     
+                    minLength: 1
+                  });
+                } );
+                </script>
+
+            {% if result %}
+
+            {% for entry in result %}        
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        
+                        <p>
+                            <a href="{{ entry.plot_summary }}">
+                            <strong> {{entry.book_title }}</strong>:</a> (
+                             <strong> {{ entry.author }} </strong>,
+                             <strong> {{ entry.publication_date }} </strong>)
+
+                            <br><br> 
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            {% endfor %}
+            {% else %}
+            <center><h1> No Data Found!</h1></center>
+            {% for entry in entries %}
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong> {{entry.book_title }}</strong>
+                            <br> <strong> {{ entry.author }} </strong>
+                             <strong> {{ entry.publication_date }} </strong>
+                            <br> <strong> {{ entry.book_genres }} </strong>
+                            <br><br> {{ entry.plot_summary }}
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+</body>
+
+</html>

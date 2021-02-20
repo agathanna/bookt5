@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Book List
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+
+    {% if post %}
+            <center><h1>Search Result Found</h1></center>
+            <br>
+            {% for post in entries%}
+            <center><h2><a href="/index/", {{book_title }} ></a></h2></center>
+           {% endfor %}
+            {% else %}
+            <center><h1><B>Nothing Found!</B></h1></center>
+    {% endif %}
